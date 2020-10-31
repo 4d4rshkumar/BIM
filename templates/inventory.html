@@ -1,0 +1,51 @@
+{% extends 'base.html' %} <!--Importing the template-->
+{% block title %}
+Inventory
+{% endblock title %}
+{% block body %}
+
+
+<div class="container">
+<h1 class="text-center my-3"> INVENTORY</h1>
+
+
+
+<form action="/addItem/" class="my-5"  method="POST">
+{% csrf_token %}
+<div class="form-group">
+    <label for="title">Titile of book</label>
+   <input type="text" id="title" class="form-control" name="title" required/>
+</div>
+<div class="form-row">
+    <div class="col-md-6 mb-3">
+        <label for="author">Author</label>
+        <input type="text" id="author" class="form-control" name="author" required/>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" class="form-control" name="quantity" required/>
+    </div>
+</div>
+<input type="submit" class="btn btn-dark" value="Add"/>
+</form>
+
+
+<div class="row">
+{% for itr in all_items %}
+<div class="col-sm-6">
+    <div class="card bg-light mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Title: {{itr.title}} </h5>
+        <p class="card-text">Author: {{itr.author}} </p>
+        <p class="card-text">Quantity: {{itr.quantity}}</p>
+        <form action="/deleteItem/{{itr.id}}/" method="POST">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Remove"/>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endfor %}
+</div>
+{% endblock body %}
